@@ -283,9 +283,9 @@ public class MainWindow extends javax.swing.JFrame {
         
         String fileName = "Exp.txt";
         
-        for (int targetDeploymentStrategy = 0; targetDeploymentStrategy < 2; targetDeploymentStrategy++) {
-            for (int numOfSensors = 40; numOfSensors <= 80; numOfSensors += 5) {
-                for (int transmissionRadius = 6; transmissionRadius <= 16; transmissionRadius += 2) {
+        for (int targetDeploymentStrategy = 0; targetDeploymentStrategy <= 0; targetDeploymentStrategy++) {
+            for (int numOfSensors = 50; numOfSensors <= 50; numOfSensors += 5) {
+                for (int transmissionRadius = 6; transmissionRadius <= 14; transmissionRadius += 2) {
                     for (int j = 0; j < 1; j++) {
                         for (int seed = 0; seed < 10; seed++) {
                             rng = new Random(2019 + seed);
@@ -329,9 +329,12 @@ public class MainWindow extends javax.swing.JFrame {
                                     break;
                             }
 
+                            long start = System.nanoTime();
                             optimizer.solve(pop, 0, MAX_FES);
-                            String text = ALG_NAMES[j] + " " + seed + " " + numOfSensors + " " + transmissionRadius + " " + (targetDeploymentStrategy == 0 ? "random" : "even")
-                                    + " " + optimizer.connected + " " + optimizer.coverage;
+                            long end = System.nanoTime();
+                            double elapsed = (end - start) / 1000000000.0;
+                            String text = ALG_NAMES[j] + "," + seed + "," + numOfSensors + "," + transmissionRadius + "," + (targetDeploymentStrategy == 0 ? "random" : "even")
+                                    + "," + optimizer.connected + "," + optimizer.coverage + "," + elapsed;
                             System.out.println(text);
                             saveToTheFile(EXPERIMENTS_OUTPUT_FOLDER_LOC, fileName, text);
                         }
